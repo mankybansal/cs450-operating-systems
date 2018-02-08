@@ -1,10 +1,10 @@
- /*************************
+/*************************
 
- Edited by Mayank Bansal
- CS450 - Operating Systems
- mbansal5@hawk.iit.edu
+Edited by Mayank Bansal
+CS450 - Operating Systems
+mbansal5@hawk.iit.edu
 
- **************************/
+**************************/
 
 // Shell.
 
