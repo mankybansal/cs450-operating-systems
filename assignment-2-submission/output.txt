@@ -1,0 +1,129 @@
+mayankbansal@mayankbansal-VirtualBox:/media/sf_Ubuntu_VM_Shared/cs450-operating-systems/xv6-public$ make qemu-nox
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 2 -m 512
+xv6...
+cpu1: starting 1
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+CS450$ syscallCount
+
+**********************
+*  Init Call Counts  *
+**********************
+ - syscall #1: 0
+ - syscall #2: 0
+ - syscall #3: 0
+ - syscall #4: 0
+ - syscall #5: 0
+ - syscall #6: 0
+ - syscall #7: 1
+ - syscall #8: 0
+ - syscall #9: 0
+ - syscall #10: 0
+ - syscall #11: 0
+ - syscall #12: 1
+ - syscall #13: 0
+ - syscall #14: 0
+ - syscall #15: 0
+ - syscall #16: 0
+ - syscall #17: 0
+ - syscall #18: 0
+ - syscall #19: 0
+ - syscall #20: 0
+ - syscall #21: 0
+ - syscall #22: 1
+**********************
+
+
+**********************
+*  TESTING IN PARENT *
+**********************
+
+   **********************
+   * Sample SystemCalls *
+   **********************
+
+   Calling mkdir()
+   - Directory 'Hello World' created
+
+   Calling write()
+   - File hello-world.txt created
+   - 'Hello World' written to file
+   - 4 bytes were written
+
+   **********************
+
+
+   **********************
+   * Parent Call Counts *
+   **********************
+    - syscall #1: 0
+    - syscall #2: 0
+    - syscall #3: 0
+    - syscall #4: 0
+    - syscall #5: 0
+    - syscall #6: 0
+    - syscall #7: 1
+    - syscall #8: 0
+    - syscall #9: 0
+    - syscall #10: 0
+    - syscall #11: 0
+    - syscall #12: 2
+    - syscall #13: 0
+    - syscall #14: 0
+    - syscall #15: 1
+    - syscall #16: 831
+    - syscall #17: 0
+    - syscall #18: 0
+    - syscall #19: 0
+    - syscall #20: 1
+    - syscall #21: 1
+    - syscall #22: 2
+**********************
+
+**********************
+*  TESTING IN CHILD  *
+**********************
+
+   **********************
+   * Sample SystemCalls *
+   **********************
+
+   Calling read()
+   - 'Hello Worl' was read from file
+   - 10 bytes were read
+
+   Calling strcpy()
+   - Copying string: Hello World
+   - Final copied string: Hello World
+
+  **********************
+
+
+   **********************
+   *  Child Call Counts *
+   **********************
+    - syscall #1: 0
+    - syscall #2: 0
+    - syscall #3: 0
+    - syscall #4: 0
+    - syscall #5: 1
+    - syscall #6: 0
+    - syscall #7: 0
+    - syscall #8: 0
+    - syscall #9: 0
+    - syscall #10: 0
+    - syscall #11: 0
+    - syscall #12: 0
+    - syscall #13: 0
+    - syscall #14: 0
+    - syscall #15: 1
+    - syscall #16: 348
+    - syscall #17: 0
+    - syscall #18: 0
+    - syscall #19: 0
+    - syscall #20: 0
+    - syscall #21: 1
+    - syscall #22: 1
+   **********************
+CS450$
