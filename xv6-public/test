@@ -1,0 +1,11 @@
+Make the files:
+
+$ make
+
+Start Emulator:
+
+$ make qemu-nox
+
+Start the syscallCount.c program using:
+
+CS-450$ syscallCount
