@@ -12,4 +12,4 @@ A20392482
 
 * Assignment 1 - Parallel Execution & Redirection Operator
 * Assignment 2 - Tracing write(fd,n,10) & writing a syscall
-
+* Assignment 3 - Memory tracking

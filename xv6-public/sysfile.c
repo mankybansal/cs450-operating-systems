@@ -479,3 +479,35 @@ int getCallCount(void) {
     return 0;
 }
 
+/***********************
+ * Memory Usage Meter  *
+ ***********************/
+
+/*
+ * Initialize data structures here
+ */
+
+void getMemoryUsage(void);
+
+/*
+ * Function to get memory usage
+ */
+
+void getMemoryUsage() {
+
+	// struct proc *curproc = myproc();
+
+	// do something here
+}
+
+/*
+ * Function to send memory usage
+ * to the main program
+ */
+
+int myMemory(void){
+
+	// do something here
+
+	return 0;
+}
