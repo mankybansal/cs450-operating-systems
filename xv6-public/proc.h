@@ -53,6 +53,7 @@ struct proc {
     char name[16];               // Process name (debugging)
     int callCount[23];			 // Keep track of system call counts
 	int memoryUsage;			 // Keep track of process memory usage
+	int memoryAvailable;		 // Keep track of memory available to process
 };
 
 // Process memory is laid out contiguously, low addresses first:

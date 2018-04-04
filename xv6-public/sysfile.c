@@ -15,6 +15,7 @@
 #include "sleeplock.h"
 #include "file.h"
 #include "fcntl.h"
+#include "memlayout.h"
 
 // Fetch the nth word-sized system call argument as a file descriptor
 // and return both the descriptor and the corresponding struct file.
@@ -497,6 +498,12 @@ void getMemoryUsage() {
 
 	// struct proc *curproc = myproc();
 
+	//TODO: GET MEMORY USAGE IN TERMS OF PAGES ALLOCATED
+	//TODO: GET # OF PAGES ACCESSIBLE AND WRITEABLE TO PROGRAM
+
+	// myproc->memoryUsage
+	// myproc->memoryAvailable
+
 	// do something here
 }
 
@@ -505,9 +512,50 @@ void getMemoryUsage() {
  * to the main program
  */
 
-int myMemory(void){
 
+uint myMemory(void){
+
+	struct proc *curproc = myproc();
+//
+//	pde_t *pde;
+//	pte_t *pgtab;
+//
+//
+//
+
+
+	const void *va;
+
+	argint(0, (void*)&va);
+
+	pde_t *pde;
+	pte_t *pgtab;
+
+	pde_t *pgdir = curproc->pgdir;
+
+	for(int i=0; i<10; i++){
+		pde = &curproc->pgdir[i];
+		cprintf("%x\n", pde);
+
+		pgtab = (pte_t*)P2V(PTE_ADDR(*pde));
+		cprintf("%x\n", pgtab);
+	}
+
+
+	pde = &pgdir[PDX(va)];
+	if(*pde & PTE_P){
+		pgtab = (pte_t*)P2V(PTE_ADDR(*pde));
+		return (uint) &pgtab[PTX(va)];
+	}
+
+
+
+
+
+
+	//TODO: SEND PAGES ALLOCATED TO USER PROGRAM
 	// do something here
+
 
 	return 0;
 }

@@ -8,6 +8,44 @@ int main(int argc, char *argv[]) {
     int n = 23;
     int counts[n];
 
+//
+//	uint *ptr1 = malloc(sizeof(int));
+//	printf(1,"%x\n", ptr1);
+//	printf(1,"%x\n",myMemory(ptr1));
+
+
+	if(fork()==0){
+		uint *ptr2 = malloc(sizeof(int));
+		printf(1,"%x\n", ptr2);
+		printf(1,"%x\n",myMemory(ptr2));
+
+		uint *ptr3 = malloc(sizeof(int));
+		printf(1,"%x\n", ptr3);
+		printf(1,"%x\n",myMemory(ptr3));
+	}else{
+		wait();
+		uint *ptr = malloc(sizeof(int));
+		printf(1,"%x\n",ptr);
+		printf(1,"%x\n",myMemory(ptr));
+
+
+		uint *ptr0 = malloc(sizeof(int));
+		printf(1,"%x\n", ptr0);
+		printf(1,"%x\n",myMemory(ptr0));
+
+	}
+
+
+
+
+//	if(fork()==0){
+//		myMemory();
+//	}else{
+//		wait();
+//		myMemory();
+//	}
+
+	exit();
 
     /*********************
      * Print Init Counts *
