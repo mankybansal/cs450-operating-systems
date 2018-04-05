@@ -1,3 +1,11 @@
+//Mayank Bansal<br>
+//A20392482<br>
+//mbansal5@hawk.iit.edu
+
+//Josiah Hunt<br>
+//A20350987<br>
+//jhunt5@hawk.iit.edu
+
 #include "stdlib.h"
 #include "stdio.h"
 
@@ -16,7 +24,7 @@ int main(int argc, char *argv[]){
 
     free(data);
     printf("After free\n");
-    for(int i = 0; i < 100; i++){	
+    for(int i = 0; i < 100; i++){
     	printf("%d, ", data[i]);
 	if((i+1)%10 == 0){
 	   printf("\n");

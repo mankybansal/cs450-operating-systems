@@ -155,7 +155,6 @@ struct spinlock lock;
 int init = 0;
 
 void updateCount(int syscall);
-void getMemoryUsage(void);
 
 void syscall(void) {
 	struct proc *curproc = myproc();

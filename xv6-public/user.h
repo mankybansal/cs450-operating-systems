@@ -24,7 +24,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int getCallCount(int *counts, int size);
-uint myMemory(uint *va);
+int myMemory();
 
 
 // ulib.c
