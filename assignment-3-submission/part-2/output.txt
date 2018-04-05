@@ -1,0 +1,480 @@
+mayankbansal@mayankbansal-VirtualBox:/media/sf_Ubuntu_VM_Shared/cs450-operating-systems/xv6-public$ make; make qemu-nox
+gcc -fno-pic -static -fno-builtin -fno-strict-aliasing -O2 -Wall -MD -ggdb -m32 -Werror -fno-omit-frame-pointer -fno-stack-protector   -c -o memTest.o memTest.c
+ld -m    elf_i386 -N -e main -Ttext 0 -o _memTest memTest.o ulib.o usys.o printf.o umalloc.o
+objdump -S _memTest > memTest.asm
+objdump -t _memTest | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > memTest.sym
+./mkfs fs.img README _cat _echo _forktest _grep _init _kill _ln _ls _mkdir _rm _sh _stressfs _usertests _wc _zombie _syscallCount _memTest
+nmeta 59 (boot, super, log blocks 30 inode blocks 26, bitmap blocks 1) blocks 941 total 1000
+balloc: first 648 blocks have been allocated
+balloc: write bitmap block at sector 58
+dd if=/dev/zero of=xv6.img count=10000
+10000+0 records in
+10000+0 records out
+5120000 bytes (5.1 MB, 4.9 MiB) copied, 0.544111 s, 9.4 MB/s
+dd if=bootblock of=xv6.img conv=notrunc
+1+0 records in
+1+0 records out
+512 bytes copied, 0.000963277 s, 532 kB/s
+dd if=kernel of=xv6.img seek=1 conv=notrunc
+353+1 records in
+353+1 records out
+181196 bytes (181 kB, 177 KiB) copied, 0.0390642 s, 4.6 MB/s
+qemu-system-i386 -nographic -drive file=fs.img,index=1,media=disk,format=raw -drive file=xv6.img,index=0,media=disk,format=raw -smp 2 -m 512
+xv6...
+cpu1: starting 1
+cpu0: starting 0
+sb: size 1000 nblocks 941 ninodes 200 nlog 30 logstart 2 inodestart 32 bmap start 58
+init: starting sh
+CS450$ memTest
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 0
+> Checking inital memory usage
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     Checking initial memory usage...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 1
+> Adding 1024 bytes to memory
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     Adding 1024 bytes to memory...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :4
+     * - Present         :65541
+     * - User Accessible :4
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 2
+> Adding 4096 bytes to memory
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     Adding 4096 bytes to memory...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :4
+     * - Present         :65541
+     * - User Accessible :4
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 3
+> Adding 4096 bytes to memory
+> Adding 4096 bytes to memory
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     Adding 4096 bytes to memory...
+
+     Adding 4096 bytes to memory...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :5
+     * - Present         :65542
+     * - User Accessible :5
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 4
+> Adding 4097 bytes to memory
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+     Adding 4097 bytes to memory...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :5
+     * - Present         :65542
+     * - User Accessible :5
+     ********************************
+
+     Cleaning up test case...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 5
+> Adding 4097 bytes to memory
+> Removing 4097 bytes from memory
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     Adding 4097 bytes to memory...
+
+     Removing 4097 bytes from memory...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 6
+> Adding 56732 pages to memory
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+     Adding 56730 pages to memory...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :56733
+     * - Present         :122270
+     * - User Accessible :56733
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 7
+> Adding 56750 pages to memory
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     Adding 56750 pages to memory...
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :56735
+     * - Present         :122272
+     * - User Accessible :56735
+     ********************************
+
+     Cleaning up test case...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 8
+> Adding 1000 pages to memory
+> Removing 1000 pages from memory
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     Adding 1000 pages to memory...
+
+     Removing 1000 pages to memory...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 9
+> Adding 10 pages in parent
+> Adding 10 pages in child
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+     Adding 10 pages in PARENT...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :13
+     * - Present         :65550
+     * - User Accessible :13
+     ********************************
+
+     Adding 10 pages in CHILD...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :23
+     * - Present         :65560
+     * - User Accessible :23
+     ********************************
+
+     Cleaning up PARENT...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 10
+> Adding 10 pages in parent
+> Adding 5 pages in parent
+> Adding 10 pages in child
+> Removing 5 pages in child
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+     Adding 10 pages in CHILD...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :13
+     * - Present         :65550
+     * - User Accessible :13
+     ********************************
+
+     Removing 5 pages in CHILD...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :8
+     * - Present         :65545
+     * - User Accessible :8
+     ********************************
+
+     Adding 10 pages in PARENT...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :13
+     * - Present         :65550
+     * - User Accessible :13
+     ********************************
+
+     Adding 5 pages in PARENT...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :18
+     * - Present         :65555
+     * - User Accessible :18
+     ********************************
+
+     Cleaning up PARENT...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 11
+> Adding 10 pages in parent
+> Adding 10 pages in child
+> Adding 15 pages in child of child
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+     Adding 15 pages in CHILD of CHILD...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :18
+     * - Present         :65555
+     * - User Accessible :18
+     ********************************
+
+     Adding 10 pages in CHILD...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :13
+     * - Present         :65550
+     * - User Accessible :13
+     ********************************
+
+     Adding 5 pages in PARENT...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :8
+     * - Present         :65545
+     * - User Accessible :8
+     ********************************
+
+     Cleaning up PARENT...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+> Test 12
+> Adding 56750 pages in parent
+> Adding 1000 pages in child
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+
+     Adding 1000 pages in CHILD...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :1003
+     * - Present         :66540
+     * - User Accessible :1003
+     ********************************
+
+     Adding 56750 pages in PARENT...
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+allocuvm out of memory
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :56735
+     * - Present         :122272
+     * - User Accessible :56735
+     ********************************
+
+     Cleaning up PARENT...
+
+     ********************************
+     *  MEMORY USAGE (In Pages)
+     ********************************
+     * - User Writable   :3
+     * - Present         :65540
+     * - User Accessible :3
+     ********************************
+CS450$
