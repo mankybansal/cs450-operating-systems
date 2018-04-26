@@ -46,4 +46,4 @@ int inodeTBWalker(void);
 int directoryWalker(char*);
 int damageDirInode(int);
 int compareWalker(void);
-int recovery(void);
+int recoverFile(void);

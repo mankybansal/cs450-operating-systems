@@ -215,53 +215,6 @@ ialloc(uint dev, short type) {
 	panic("ialloc: no inodes");
 }
 
-int arr[200];
-int arrCount = 0;
-//
-//int *inodeBMWalker() {
-//	int inum;
-//	struct buf *bp;
-//	struct dinode *dip;
-//
-//	//TODO:sd.ninodes
-//
-//	for (inum = 1; inum < sb.ninodes; inum++) {
-//		bp = bread(1, IBLOCK(inum, sb));
-//		dip = (struct dinode *) bp->data + inum % IPB;
-//		if (dip->type == 0) {  // a free inode
-//			//cprintf("\n%d: 0", inum);
-//		} else {
-//			//cprintf("\n%d: 1", inum);
-//			*(arr + (arrCount++)) = inum;
-//		}
-//		brelse(bp);
-//	}
-//	cprintf("(%d)", inum);
-//
-//	arr[arrCount++] = -1;
-//
-//	return arr;
-//}
-//
-//void eraseNode(int inum) {
-//
-//	begin_op();
-//	struct inode *ino;
-//
-//	ino = iget(ROOTDEV, inum);
-//	ilock(ino);
-//	for (int i = 0; i < NDIRECT; i++) {
-//		cprintf("\nDeleting Address >> %d", ino->addrs[i]);
-//		ino->addrs[i] = 0;
-//	}
-//	ino->nlink--;
-//	iupdate(ino);
-//	iunlockput(ino);
-//	end_op();
-//	return;
-//}
-
-
 // Copy a modified in-memory inode to disk.
 // Must be called after every change to an ip->xxx field
 // that lives on disk, since i-node cache is write-through.
@@ -696,10 +649,11 @@ struct inode *nameiparent(char *path, char *name) {
 }
 
 
-/*************************
+/****************************
 *
+*	CS450 - PA4 (FileSystem)
 *
-**************************/
+*****************************/
 
 
 int inodeTBWalker(void) {
@@ -714,7 +668,7 @@ int inodeTBWalker(void) {
 		bp = bread(T_DEV, IBLOCK(inum, sb));
 		dip = (struct dinode *) bp->data + inum % IPB;
 		if (dip->type != 0 && dip->nlink > 0) {
-			cprintf("(%d): 1\n", inum);
+			cprintf("(Indoe %d): 1\n", inum);
 			inodes[inum] = 1;
 		}
 		brelse(bp);
@@ -749,45 +703,45 @@ int directoryWalker(char *path) {
 	struct inode *dp = namei(path);
 	if (dp == 0) return -1;
 
-	struct dirent de;
+	struct dirent dirEnt;
 	ilock(dp);
 	indent++;
 
 	if (dp->type == T_DIR) {
-		for (uint off = 0; off < dp->size; off += sizeof(de)) {
+		for (uint off = 0; off < dp->size; off += sizeof(dirEnt)) {
 
-			if (readi(dp, (char *) &de, off, sizeof(de)) != sizeof(de));
+			if (readi(dp, (char *) &dirEnt, off, sizeof(dirEnt)) != sizeof(dirEnt));
 
-			if ((strncmp(de.name, ".", 14) == 0) || (strncmp(de.name, "..", 14) == 0)) {
-				directories[de.inum] = 1;
+			if ((strncmp(dirEnt.name, ".", 14) == 0) || (strncmp(dirEnt.name, "..", 14) == 0)) {
+				directories[dirEnt.inum] = 1;
 				printIndent(indent);
-				cprintf("%s INODE: %d\n", formatName(de.name), de.inum);
+				cprintf("%s INODE: %d\n", formatName(dirEnt.name), dirEnt.inum);
 				continue;
 			}
 
-			if (de.inum > 0) {
-				struct inode *inside = dirlookup(dp, de.name, 0);
-				ilock(inside);
+			if (dirEnt.inum > 0) {
+				struct inode *st = dirlookup(dp, dirEnt.name, 0);
+				ilock(st);
 
-				switch (inside->type) {
+				switch (st->type) {
 					case T_DIR:
-						iunlock(inside);
-						directories[de.inum] = 1;
+						iunlock(st);
+						directories[dirEnt.inum] = 1;
 						printIndent(indent);
-						cprintf("%s INODE: %d\n", formatName(de.name), de.inum);
+						cprintf("%s INODE: %d\n", formatName(dirEnt.name), dirEnt.inum);
 						iunlock(dp);
-						directoryWalker(de.name);
+						directoryWalker(dirEnt.name);
 						ilock(dp);
 						break;
 					case T_FILE:
-						iunlock(inside);
-						directories[de.inum] = 1;
+						iunlock(st);
+						directories[dirEnt.inum] = 1;
 						printIndent(indent);
-						cprintf("%s INODE: %d\n", formatName(de.name), de.inum);
+						cprintf("%s INODE: %d\n", formatName(dirEnt.name), dirEnt.inum);
 						break;
 					case T_DEV:
-						iunlock(inside);
-						directories[de.inum] = 1;
+						iunlock(st);
+						directories[dirEnt.inum] = 1;
 						break;
 				}
 			}
@@ -801,67 +755,68 @@ int directoryWalker(char *path) {
 
 int damageInode(int inum) {
 
-	if ((inum <= 1) || (inum >= 100)) {
-		cprintf("You can't damage root\n");
+	if (inum <= 1) {
+		cprintf("Error: Root\n");
 		return -1;
 	}
+	
 	begin_op();
-	struct inode *to_be_del = iget(T_DIR, inum);
-	cprintf("starting\n");
-	if (to_be_del->type != T_DIR) {
-		cprintf("This is not a directory\n");
+	struct inode *delNode = iget(T_DIR, inum);
+	
+	if (delNode->type != T_DIR) {
+		cprintf("Error: Invalid Directory\n");
 		return -1;
 	}
-	ilock(to_be_del);
-	itrunc(to_be_del);
-	iunlockput(to_be_del);
+
+	// set locks
+	ilock(delNode);
+	itrunc(delNode);
+	iunlockput(delNode);
 	end_op();
 
-	cprintf("Finished damaging inode %d\n !! Re init 2 walkers for further comparision\n");
-	int i;
-	for (i = 0; i < 100; i++) {
+	cprintf("Damaged Node\n");
+
+	for (int i = 0; i < 100; i++)
 		directories[i] = 0;
-	}
-	directoryWalker(".");
-	inodeTBWalker();
+	
 	return inum;
 }
 
-int checkDirArray(void) {
+// helper to check directory array
+int checkDir(void) {
 	for (int i = 0; i < 200; i++)
 		if (directories[i] == 1) return 1;
 	return -1;
 }
 
-int checkInodeArray(void) {
+// helper to check inode array
+int checkInode(void) {
 	for (int i = 0; i < 200; i++)
 		if (inodes[i] == 1) return 1;
 	return -1;
 }
 
 int compareWalker(void) {
-	if ((checkDirArray() == -1) || (checkInodeArray() == -1))
+	if ((checkDir() == -1) || (checkInode() == -1))
 		return -1;
-
 	for (int i = 1; i < 200; i++) {
+		// indicate missing object 
 		if ((inodes[i] == 1 && directories[i] == 0) || (inodes[i] == 0 && directories[i] == 1))
-			cprintf("%d missing from one walker\n", i);
+			cprintf("Inode: %d missing in one walker\n", i);
+		// update missing files for recovery
 		compare[i] = inodes[i] ^ directories[i];
 	}
-
 	return 1;
 }
 
 int recoverWalker(struct inode *recovery_dir) {
 	struct inode *dp = iget(T_DIR, 1);
-	char name = 'Recovered Folder';
+	char fileName[100] = "Recovered Folder";
 	for (int i = 1; i < 200; i++)
 		if (compare[i] == 1) {
-			char *fileName = &name;
-			fileName[1] = '\0';
 			begin_op();
 			dirlink(dp, fileName, i);
-			cprintf("Recover Complete %d \n", i);
+			cprintf("Recovered Inode: %d \n", i);
 			end_op();
 		}
 	return 1;

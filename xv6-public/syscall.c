@@ -131,8 +131,7 @@ extern int sys_damageDirInode(void);
 
 extern int sys_compareWalker(void);
 
-extern int sys_recovery(void);
-
+extern int sys_recoverFile(void);
 
 static int (*syscalls[])(void) = {
 		[SYS_fork]    sys_fork,
@@ -162,7 +161,7 @@ static int (*syscalls[])(void) = {
 		[SYS_directoryWalker]   sys_directoryWalker,
 		[SYS_damageDirInode] 	sys_damageDirInode,
 		[SYS_compareWalker]     sys_compareWalker,
-		[SYS_recovery]        	sys_recovery
+		[SYS_recoverFile]       sys_recoverFile
 };
 
 // Static array to keep track of the counts for each syscall

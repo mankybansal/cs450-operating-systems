@@ -26,4 +26,4 @@
 #define SYS_inodeTBWalker	25
 #define SYS_damageDirInode  26
 #define SYS_compareWalker 	27
-#define SYS_recovery 		28
+#define SYS_recoverFile		28
