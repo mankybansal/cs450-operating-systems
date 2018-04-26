@@ -119,6 +119,21 @@ extern int getCallCount(void);
 
 extern int myMemory(void);
 
+//extern int deleteNode(void);
+//
+//extern int checkInode(void);
+
+extern int sys_inodeTBWalker(void);
+
+extern int sys_directoryWalker(void);
+
+extern int sys_damageDirInode(void);
+
+extern int sys_compareWalker(void);
+
+extern int sys_recovery(void);
+
+
 static int (*syscalls[])(void) = {
 		[SYS_fork]    sys_fork,
 		[SYS_exit]    sys_exit,
@@ -142,7 +157,12 @@ static int (*syscalls[])(void) = {
 		[SYS_mkdir]   sys_mkdir,
 		[SYS_close]   sys_close,
 		[SYS_getCallCount] getCallCount,
-		[SYS_myMemory] myMemory
+		[SYS_myMemory] myMemory,
+		[SYS_inodeTBWalker] 	sys_inodeTBWalker,
+		[SYS_directoryWalker]   sys_directoryWalker,
+		[SYS_damageDirInode] 	sys_damageDirInode,
+		[SYS_compareWalker]     sys_compareWalker,
+		[SYS_recovery]        	sys_recovery
 };
 
 // Static array to keep track of the counts for each syscall

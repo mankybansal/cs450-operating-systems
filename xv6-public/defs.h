@@ -10,6 +10,7 @@ struct sleeplock;
 struct stat;
 struct superblock;
 
+
 // bio.c
 void            binit(void);
 struct buf*     bread(uint, uint);
@@ -39,6 +40,18 @@ void            readsb(int dev, struct superblock *sb);
 int             dirlink(struct inode*, char*, uint);
 struct inode*   dirlookup(struct inode*, char*, uint*);
 struct inode*   ialloc(uint, short);
+//int * 			inodeBMWalker();
+//void 			eraseNode(int inum);
+
+int 			directoryWalker(char *);
+int 			inodeTBWalker(void);
+int 			checkDirArray(void);
+int 			checkInodeArray(void);
+int 			compareWalker(void);
+int             inodeBMWalker(void);
+int             damageInode(int inum);
+int             recoverWalker();
+
 struct inode*   idup(struct inode*);
 void            iinit(int dev);
 void            ilock(struct inode*);

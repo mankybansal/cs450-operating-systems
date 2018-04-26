@@ -40,3 +40,10 @@ void* memset(void*, int, uint);
 void* malloc(uint);
 void free(void*);
 int atoi(const char*);
+
+// fs.c
+int inodeTBWalker(void);
+int directoryWalker(char*);
+int damageDirInode(int);
+int compareWalker(void);
+int recovery(void);

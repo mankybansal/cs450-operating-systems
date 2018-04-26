@@ -412,6 +412,62 @@ int sys_pipe(void) {
 	return 0;
 }
 
+//TODO: DELETE THIS
+//
+//int deleteNode(void){
+//	int inum;
+//
+//	argint(0, &inum);
+//	eraseNode(inum);
+//	return 0;
+//}
+//
+//
+//int checkInode(void){
+//
+//	int *counts;
+//	int size;
+//
+//	// get counts pointer and size
+//	argint(1, &size);
+//	argptr(0, (void *) &counts, size);
+//
+//	for(int j=0; j<size; j++)
+//		cprintf("[%d]",counts[j]);
+//
+//	int *counts2 = inodeBMWalker();
+//
+//	cprintf("\n\n");
+//
+//	int size2 = 0;
+//	for(; counts2[size2]!= -1; size2++)
+//		cprintf("[%d]",counts2[size2]);
+//
+//	for(int i=0; i<=size; i++){
+//		for(int j=0; j<=size2; j++){
+//			if(counts[i]==counts[j]) counts[i] = -1;
+//		}
+//	}
+//
+//	cprintf("\n\n");
+//
+//	int negCount = 0;
+//	int *missing[200];
+//	for(int i=0; i<size; i++){
+//		if(counts[i]!=-1)
+//			*(missing+negCount) = &counts[i];
+//	}
+//
+//	cprintf("\n\nMISSING\n\n");
+//
+//	for(int i=0; i<negCount; i++)
+//		cprintf("[%d]",*(missing+i));
+//
+//	return 0;
+//}
+
+
+
 /***********************
  * System Call Counter *
  ***********************/
@@ -514,7 +570,7 @@ int myMemory(void) {
 					countPTEAcc++;
 				}
 				// PTE User Writable
-				if (pgtab[j] & PTE_P && pgtab[j] & PTE_U && pgtab[j] & PTE_W ) {
+				if (pgtab[j] & PTE_P && pgtab[j] & PTE_U && pgtab[j] & PTE_W) {
 					countPTEUse++;
 				}
 			}
@@ -522,12 +578,40 @@ int myMemory(void) {
 	}
 
 	cprintf("\n     ********************************\n");
-	cprintf(  "     *  MEMORY USAGE (In Pages)      \n");
-	cprintf(  "     ********************************\n");
-	cprintf(  "     * - User Writable   :%d     \n", countPTEUse);
-	cprintf(  "     * - Present         :%d     \n", countPTEPre);
-	cprintf(  "     * - User Accessible :%d     \n", countPTEAcc);
-	cprintf(  "     ********************************\n");
+	cprintf("     *  MEMORY USAGE (In Pages)      \n");
+	cprintf("     ********************************\n");
+	cprintf("     * - User Writable   :%d     \n", countPTEUse);
+	cprintf("     * - Present         :%d     \n", countPTEPre);
+	cprintf("     * - User Accessible :%d     \n", countPTEAcc);
+	cprintf("     ********************************\n");
 
 	return 0;
+}
+
+
+int sys_inodeTBWalker(void) {
+	inodeTBWalker();
+	return 1;
+}
+
+int sys_directoryWalker(void) {
+	char *path;
+	if (argstr(0, &path) < 0)
+		return -1;
+	return directoryWalker(path);
+}
+
+int sys_damageDirInode(void) {
+	int inum;
+	if (argint(0, &inum) < 0)
+		return -1;
+	return damageInode(inum);
+}
+
+int sys_compareWalker(void) {
+	return compareWalker();
+}
+
+int sys_recovery(void) {
+	return recoverWalker();
 }
