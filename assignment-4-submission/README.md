@@ -25,9 +25,44 @@ $ make qemu-nox
 
 This should now open the ```CS450$ ``` prompt to type in commands.
 
-Verify the test program ```memTest``` shows up when you `ls`
+There are 5 programs to help run the assignment
+### FSWalker
+Checks the output of the directory with inodes
+```
+$ fsWalker
+```
 
-Run the ```memTest``` test program with the following command:
+### Inode Walker
+Check output from inodes from the following:
 ```
-CS450$ memTest
+$ inWalker
 ```
+
+### Comparing Outputs
+Make sure you have run the `fsWalker` and `inWalker` before running this otherwise it will show no changes
+```
+$ coWalker
+```
+
+### Damaging the FS
+Run the following command:
+
+```
+$ daInode
+```
+
+
+### Repairing Files
+
+The following sequence will repair any inodes that are damaged:
+```
+$ fsWalker
+$ inWalker
+$ coWalker
+$ reInode
+```
+
+```NOTE: RUN ALL THE COMMANDS IN ORDER```
+
+## TEST PROGRAM
+
