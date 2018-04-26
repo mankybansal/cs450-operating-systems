@@ -1,4 +1,4 @@
-// Console input and output.
+// Console input and output_screenshots.
 // Input is from the keyboard or serial port.
 // Output is written to the screen and serial port.
 

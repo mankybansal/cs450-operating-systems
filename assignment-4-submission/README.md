@@ -27,13 +27,13 @@ This should now open the ```CS450$ ``` prompt to type in commands.
 
 There are 5 programs to help run the assignment
 ### FSWalker
-Checks the output of the directory with inodes
+Checks the output_screenshots of the directory with inodes
 ```
 $ fsWalker
 ```
 
 ### Inode Walker
-Check output from inodes from the following:
+Check output_screenshots from inodes from the following:
 ```
 $ inWalker
 ```
@@ -65,4 +65,26 @@ $ reInode
 ```NOTE: RUN ALL THE COMMANDS IN ORDER```
 
 ## TEST PROGRAM
+Here is a sample program that can be used to test the walkers and programs
 
+```
+$ mkdir hello
+$ mkdir hello1
+$ fsWalker
+$ inWalker
+$ coWalker
+$ daInode [insert inode of hello]
+```
+Repair using:
+```
+$ fsWalker
+$ inWalker
+$ coWalker
+$ reInode
+```
+Verify results:
+```
+$ fsWalker
+$ inWalker
+$ coWalker
+```
