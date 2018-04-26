@@ -648,13 +648,11 @@ struct inode *nameiparent(char *path, char *name) {
 	return namex(path, 1, name);
 }
 
-
 /****************************
 *
 *	CS450 - PA4 (FileSystem)
 *
 *****************************/
-
 
 int inodeTBWalker(void) {
 	for (int i = 0; i < 200; i++)
@@ -713,9 +711,11 @@ int directoryWalker(char *path) {
 			if (readi(dp, (char *) &dirEnt, off, sizeof(dirEnt)) != sizeof(dirEnt));
 
 			if ((strncmp(dirEnt.name, ".", 14) == 0) || (strncmp(dirEnt.name, "..", 14) == 0)) {
+
 				directories[dirEnt.inum] = 1;
 				printIndent(indent);
 				cprintf("%s INODE: %d\n", formatName(dirEnt.name), dirEnt.inum);
+
 				continue;
 			}
 
@@ -726,18 +726,22 @@ int directoryWalker(char *path) {
 				switch (st->type) {
 					case T_DIR:
 						iunlock(st);
+
 						directories[dirEnt.inum] = 1;
 						printIndent(indent);
 						cprintf("%s INODE: %d\n", formatName(dirEnt.name), dirEnt.inum);
+
 						iunlock(dp);
 						directoryWalker(dirEnt.name);
 						ilock(dp);
 						break;
 					case T_FILE:
 						iunlock(st);
+
 						directories[dirEnt.inum] = 1;
 						printIndent(indent);
 						cprintf("%s INODE: %d\n", formatName(dirEnt.name), dirEnt.inum);
+
 						break;
 					case T_DEV:
 						iunlock(st);

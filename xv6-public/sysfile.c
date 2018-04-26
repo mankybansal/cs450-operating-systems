@@ -545,7 +545,7 @@ int sys_inodeTBWalker(void) {
  ***********************/
 int sys_directoryWalker(void) {
 	char *path;
-	// take sub directory arguement
+	// take sub directory argument
 	if (argstr(0, &path) < 0)
 		return -1;
 	return directoryWalker(path);
